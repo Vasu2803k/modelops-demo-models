@@ -1,6 +1,6 @@
 {
-    "id": "c809938c-ad04-4677-b439-b2ed5c3ed158",
-    "name": "Autogen Agentic AI",
-    "description": "Content writing with Group Chat using Autogen Framework",
+    "id": job_id
+    "name": "Agentic AI using AutoGen Framework",
+    "description": "Testing Agentic AI"
     "language": "python"
 }
