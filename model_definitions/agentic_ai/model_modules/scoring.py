@@ -146,4 +146,4 @@ class ModelScorer(object):
         Provide explanations for predictions (optional method).
         For now, this just returns the same as predict.
         """
-        return self.invoke(features)
+        return await self.invoke(features)
