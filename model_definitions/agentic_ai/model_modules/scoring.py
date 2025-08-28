@@ -24,12 +24,12 @@ def score(context: ModelContext, **kwargs):
 
     with open(f"{context.artifact_output_path}/model_config.json", "w") as f:
         json.dump(config, f)
-
+    
 class ModelScorer(object):
     """
     Model scorer for Autogen agent without tool use capabilities. - Tools will be added later!
     """
-
+    
     def __init__(self):
         """Initialize the Autogen model with tools"""
 
@@ -100,13 +100,13 @@ class ModelScorer(object):
         )
 
         return self.research_team
-
+    
     # Extract only the final output content
     def get_final_output(self,response):
         """Extract the final meaningful content from the agent response"""
         # Get all text messages from agents (excluding handoff messages and tool calls)
         text_messages = [msg for msg in response.messages if hasattr(msg, 'content') and hasattr(msg, 'source') and msg.source != 'user' and msg.source == 'content_writer_agent' and hasattr(msg, 'type') and msg.type == 'TextMessage']
-
+        
         if text_messages:
             content = text_messages[-1].content
             # Remove handoff text and JSON from the end
@@ -114,7 +114,7 @@ class ModelScorer(object):
             return content
         else:
             return "No final output found"
-
+        
     async def invoke(self, query):
         """
         Make predictions using the Autogen agent.
@@ -127,7 +127,7 @@ class ModelScorer(object):
         """
 
         query = query["message"]
-
+            
         try:
             result = await self.research_team.run_stream(task=query)
             response = str(self.get_final_output(result))

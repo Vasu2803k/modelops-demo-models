@@ -89,7 +89,7 @@ def get_final_output(response):
     content_writer_messages = [msg for msg in response.messages 
                               if hasattr(msg, 'source') and msg.source == 'content_writer_agent' 
                               and hasattr(msg, 'type') and msg.type == 'TextMessage']
-
+    
     if content_writer_messages:
         content = content_writer_messages[-1].content
         # Clean up handoff instructions
