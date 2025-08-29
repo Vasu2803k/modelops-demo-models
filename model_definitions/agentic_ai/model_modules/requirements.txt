@@ -1,5 +1,5 @@
 autogen-agentchat
-"autogen-ext[openai]"
+autogen-ext[openai]
 teradatamodelops
 teradataml
 requests
