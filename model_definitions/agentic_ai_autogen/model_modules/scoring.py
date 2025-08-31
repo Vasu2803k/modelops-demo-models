@@ -26,7 +26,7 @@ def score(context: ModelContext, **kwargs):
     model_client = OpenAIChatCompletionClient(
         model=context.hyperparams["LLM_MODEL"],
         base_url=context.hyperparams["LLM_BASE_URL"],
-        api_key=context.hyperparams["LLM_API_KEY"]
+        api_key=context.hyperparams["LLM_API_KEY"],
         model_info={
             "vision": False,
             "function_calling": True,
