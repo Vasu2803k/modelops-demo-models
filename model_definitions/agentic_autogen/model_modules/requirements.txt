@@ -1,8 +1,0 @@
-autogen-agentchat
-autogen-ext[openai]
-teradatamodelops
-teradataml
-requests
-pydantic
-python-dateutil
-groq
