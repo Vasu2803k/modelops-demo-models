@@ -1,6 +1,0 @@
-{
-    "id": "f7ecb613-c965-48a4-80f3-371ed26ef278",
-    "name": "LangChain Chat Agent",
-    "description": "LangChain-based conversational agent for interactive chat",
-    "language": "python"
-}
