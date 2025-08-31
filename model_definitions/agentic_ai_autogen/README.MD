@@ -46,13 +46,15 @@ The model implements a swarm-based multi-agent system with the following key age
 
 ### Hyperparameters
 
-The model uses the following configurable parameters:
+The model uses the following configurable parameters in `config.json`:
 
-| Parameter | Default Value | Description |
-|-----------|---------------|-------------|
-| `LLM_MODEL` | `gpt-3.5-turbo` | The language model to use for agent interactions |
-| `LLM_BASE_URL` | `http://localhost:4000` | Base URL for the LLM API endpoint |
-| `LLM_API_KEY` | `sk-1234` | API key for accessing the LLM service |
+| Parameter | Description |
+|-----------|-------------|
+| `LLM_MODEL` | The language model to use for agent interactions |
+| `LLM_BASE_URL` | Base URL for the LLM API endpoint |
+| `LLM_API_KEY` | API key for accessing the LLM service |
+
+**Important**: Replace `REPLACE_WITH_YOUR_API_KEY` in `config.json` with your actual API key before deployment.
 
 ### Termination Conditions
 
@@ -64,40 +66,37 @@ The system implements two termination conditions:
 
 ### Input Format
 
-The model accepts natural language prompts that describe content creation tasks. Example:
+The model accepts input in the following formats:
 
+1. **Direct query parameter**:
+```python
+score(context, query="Your research topic here")
 ```
-Find interesting facts about AI in healthcare. Focus on recent developments, 
-applications, and impact. Provide a comprehensive list of facts that would 
-be useful for a blog post.
+
+2. **Data structure**:
+```python
+score(context, data=[{"query": "Your research topic here"}])
 ```
+
+3. **Default behavior**: If no query is provided, uses a default example about transformers.
 
 ### Output Format
 
-The model returns a `TaskResult` object containing:
-- **messages**: Complete conversation history between agents
-- **stop_reason**: Reason for termination
-- **final_content**: Clean, formatted content ready for publication
+The model returns a dictionary containing:
+- **content**: Clean, formatted content ready for publication
+- **query**: The processed query
+- **timestamp**: When the processing completed
+- **agent_count**: Number of messages exchanged between agents
+- **error**: Error message if any issues occurred
 
-### Extracting Final Output
-
-To get only the final content without agent conversation metadata:
-
+### Example Response
 ```python
-# Extract clean final output
-def get_final_output(response):
-    content_writer_messages = [msg for msg in response.messages 
-                              if hasattr(msg, 'source') and msg.source == 'content_writer_agent' 
-                              and hasattr(msg, 'type') and msg.type == 'TextMessage']
-    
-    if content_writer_messages:
-        content = content_writer_messages[-1].content
-        # Clean up handoff instructions
-        content = content.split("**[Handing off to")[0].strip()
-        if content.endswith("---"):
-            content = content[:-3].strip()
-        return content
-    return "No content found"
+{
+    "content": "Generated article content here...",
+    "query": "Explain self attention in transformers",
+    "timestamp": "2025-08-31T10:30:00",
+    "agent_count": 15
+}
 ```
 
 ## Features
@@ -107,28 +106,33 @@ def get_final_output(response):
 - Each agent has specialized expertise and responsibilities
 - Coordinated workflow ensures comprehensive content creation
 
+### Error Handling
+- Graceful handling of configuration errors
+- Detailed error messages for troubleshooting
+- Fallback responses when agent execution fails
+
 ### Content Quality
 - Research-backed information with factual accuracy
 - Professional formatting suitable for publication
 - Engaging writing style with clear structure
 
 ### Flexibility
-- Configurable LLM backends (OpenAI, local models, etc.)
+- Configurable LLM backends (OpenAI, Groq, local models, etc.)
 - Customizable agent behaviors through system messages
 - Adaptable to various content types and domains
 
 ## File Structure
 
 ```
-agentic_ai/
+agentic_ai_autogen/
 ├── README.MD           # This documentation file
 ├── config.json         # Model configuration and hyperparameters
 ├── model.json          # Model metadata and description
 └── model_modules/
     ├── __init__.py     # Python package initialization
-    ├── training.py     # Model training logic
+    ├── training.py     # Model training logic (placeholder)
     ├── scoring.py      # Model inference/scoring logic
-    ├── evaluation.py   # Model evaluation metrics
+    ├── evaluation.py   # Model evaluation metrics (placeholder)
     └── requirements.txt # Python dependencies
 ```
 
@@ -138,8 +142,17 @@ Key dependencies include:
 - `autogen-agentchat`: Core agent framework
 - `autogen-ext`: Extensions for various LLM providers
 - `autogen-core`: Core autogen functionality
+- `teradatamodelops`: ModelOps integration
+- `teradataml`: Teradata ML library
 
 See `model_modules/requirements.txt` for complete dependency list.
+
+## Setup Instructions
+
+1. **Install Dependencies**: Ensure all packages in `requirements.txt` are installed
+2. **Configure API**: Update `config.json` with your actual API key and endpoints
+3. **Test Connection**: Verify your LLM service is accessible from the deployment environment
+4. **Deploy**: Use ModelOps deployment procedures for your environment
 
 ## Use Cases
 
@@ -165,6 +178,7 @@ This model is particularly effective for:
 - Allow sufficient time for multi-agent collaboration
 - Review and fact-check generated content before publication
 - Customize system messages for domain-specific requirements
+- Monitor API usage and costs when using external LLM services
 
 ## Limitations
 
@@ -172,11 +186,29 @@ This model is particularly effective for:
 - May require internet access for real-time research (depending on LLM)
 - Processing time increases with complex multi-agent interactions
 - Generated content should be reviewed for accuracy and bias
+- API costs may vary based on usage and selected model
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Configuration Error**: Ensure all hyperparameters are correctly set in `config.json`
+2. **API Authentication**: Verify your API key is valid and has sufficient permissions
+3. **Network Issues**: Check connectivity to the LLM service endpoint
+4. **Import Errors**: Ensure all required packages are installed
+
+### Error Messages
+
+The model provides detailed error messages in the output dictionary:
+- Configuration errors: Missing or invalid hyperparameters
+- Execution errors: Issues during agent communication or LLM calls
+- Content errors: Problems extracting final content from agent responses
 
 ## Support
 
 For issues or questions about this model:
 1. Check the model logs for error details
-2. Verify configuration parameters
+2. Verify configuration parameters in `config.json`
 3. Ensure all dependencies are properly installed
 4. Review agent system messages for customization needs
+5. Test LLM connectivity independently
