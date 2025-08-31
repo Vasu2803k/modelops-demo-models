@@ -1,8 +1,5 @@
 autogen-agentchat
 autogen-ext
 teradatamodelops
-teradataml
 requests
-pydantic
-python-dateutil
 groq
