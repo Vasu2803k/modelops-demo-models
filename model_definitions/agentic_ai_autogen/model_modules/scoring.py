@@ -83,7 +83,7 @@ def score(context: ModelContext, **kwargs):
     termination = HandoffTermination(target="user") | TextMentionTermination("TERMINATE")
 
     research_team = Swarm(
-        participants=[self.planner, self.research_agent, self.content_writer_agent], termination_condition=termination
+        participants=[planner, research_agent, content_writer_agent], termination_condition=termination
     )
     query="Explain self attention in transformers"
     try:
