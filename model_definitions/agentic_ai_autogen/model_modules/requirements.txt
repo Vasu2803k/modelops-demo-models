@@ -1,5 +1,2 @@
-autogen-agentchat
-autogen-ext
-autogen-core
 teradatamodelops
 teradataml
