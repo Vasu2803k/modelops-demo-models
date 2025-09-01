@@ -3,7 +3,3 @@ autogen-ext
 autogen-core
 teradatamodelops
 teradataml
-requests
-pydantic
-python-dateutil
-groq
