@@ -1,6 +1,6 @@
 {
-    "id": "85699f58-4112-453e-bc8d-acb5c6acf355",
-    "name": "Agentic AI using AutoGen Framework",
-    "description": "Multi-agent conversational AI system using Microsoft AutoGen framework for collaborative content writing and research",
+    "id": "dd2a04cf-a9d8-4db8-abb4-3ca139a787cd",
+    "name": "Agentic AI-Autogen",
+    "description": "Agentic AI Testing with Autogen Framework",
     "language": "python"
 }
