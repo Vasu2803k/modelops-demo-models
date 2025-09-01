@@ -10,12 +10,7 @@ traditional training is not required. This module can be used for:
 
 import os
 import json
-from aoa import (
-    record_evaluation_stats,
-    save_plot,
-    aoa_create_context,
-    ModelContext
-)
+from tmo import ModelContext
 
 def train(context: ModelContext, **kwargs):
     print("Training")
