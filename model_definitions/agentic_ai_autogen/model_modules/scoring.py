@@ -96,8 +96,6 @@ class ModelScorer(object):
         self.research_team = Swarm(
             participants=[self.planner, self.research_agent, self.content_writer_agent], termination_condition=termination
         )
-
-        return self.research_team
     
     # Extract only the final output content
     def get_final_output(self,response):
