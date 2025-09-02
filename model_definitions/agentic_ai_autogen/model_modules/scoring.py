@@ -97,14 +97,17 @@ class ModelScorer(object):
         )
     
     # Extract only the final output content
-    def get_final_output(self,response):
+    def get_final_output(self, response):
         """Extract the final meaningful content from the agent response"""
-        # Get all text messages from agents (excluding handoff messages and tool calls)
-        text_messages = [msg for msg in response.messages if hasattr(msg, 'content') and hasattr(msg, 'source') and msg.source != 'user' and msg.source == 'content_writer_agent' and hasattr(msg, 'type') and msg.type == 'TextMessage']
-        
+        # Get all text messages from agents except 'user'
+        text_messages = [
+            msg for msg in response.messages
+            if hasattr(msg, 'content') and hasattr(msg, 'source')
+            and msg.source != 'user'
+            and hasattr(msg, 'type') and msg.type == 'TextMessage'
+        ]
         if text_messages:
             content = text_messages[-1].content
-            # Remove handoff text and JSON from the end
             content = content.split("**[Handing off to")[0].strip()
             return content
         else:
