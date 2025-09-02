@@ -1,2 +1,4 @@
 teradatamodelops
 teradataml
+autogen-agentchat
+autogen-ext[openai]
