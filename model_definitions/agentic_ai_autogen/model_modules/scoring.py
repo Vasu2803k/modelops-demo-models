@@ -93,7 +93,7 @@ class ModelScorer(object):
         termination = HandoffTermination(target="user") | TextMentionTermination("TERMINATE")
 
         self.research_team = Swarm(
-            participants=[self.planner, self.research_agent, self.content_writer_agent], termination_condition=termination
+            participants=[self.planner, self.research_agent, self.content_writer_agent, "user"], termination_condition=termination
         )
     
     # Extract only the final output content
