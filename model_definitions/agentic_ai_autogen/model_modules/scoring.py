@@ -49,7 +49,7 @@ class ModelScorer(object):
         self.planner = AssistantAgent(
             "planner",
             description="An agent for research planning and orchestration.",
-            handoffs=["research_agent", "content_writer_agent","user"],
+            handoffs=["research_agent", "content_writer_agent"],
             model_client=model_client,
             system_message="""
             You are a Research and Content Writer Coordinator. Coordinate research and writing by delegating to specialized agents:
@@ -58,7 +58,7 @@ class ModelScorer(object):
 
             You must first respond first with a concise answer why you are handing off to a particular agent, and then hand off to one of the available agents.
             Always handoff to a single agent at a time.
-            Use TERMINATE when research and writing content is complete or Hand off to user if the work is done.
+            Use TERMINATE when research and writing content is complete.
             """
         )
         self.research_agent = AssistantAgent(
@@ -90,10 +90,10 @@ class ModelScorer(object):
         )
 
         # Define termination condition
-        termination = HandoffTermination(target="user") | TextMentionTermination("TERMINATE")
+    termination = TextMentionTermination("TERMINATE")
 
         self.research_team = Swarm(
-            participants=[self.planner, self.research_agent, self.content_writer_agent, "user"], termination_condition=termination
+            participants=[self.planner, self.research_agent, self.content_writer_agent], termination_condition=termination
         )
     
     # Extract only the final output content
