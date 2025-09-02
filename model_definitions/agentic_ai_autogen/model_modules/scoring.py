@@ -90,7 +90,7 @@ class ModelScorer(object):
         )
 
         # Define termination condition
-    termination = TextMentionTermination("TERMINATE")
+        termination = TextMentionTermination("TERMINATE")
 
         self.research_team = Swarm(
             participants=[self.planner, self.research_agent, self.content_writer_agent], termination_condition=termination
