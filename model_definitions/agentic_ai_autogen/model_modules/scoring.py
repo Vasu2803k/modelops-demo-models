@@ -121,14 +121,23 @@ class ModelScorer(object):
         Returns:
             json response
         """
-            
         try:
-            result = self.research_team.run_stream(task=query)
+            result_stream = self.research_team.run_stream(task=query)
+            result_list = list(result_stream)  # Collect all messages
+            class Response:
+                def __init__(self, messages):
+                    self.messages = messages
+            result = Response(result_list)
             response = str(self.get_final_output(result))
         except Exception as e:
             try:
                 print(f"Agent failed, trying direct LLM call: {str(e)}")
-                fallback_result = self.content_writer_agent.run_stream(task=query)
+                fallback_stream = self.content_writer_agent.run_stream(task=query)
+                fallback_list = list(fallback_stream)
+                class Response:
+                    def __init__(self, messages):
+                        self.messages = messages
+                fallback_result = Response(fallback_list)
                 response = str(self.get_final_output(fallback_result))
             except Exception as fallback_e:
                 response = f"Error: Agent failed - {str(e)}, Direct LLM also failed - {str(fallback_e)}"
