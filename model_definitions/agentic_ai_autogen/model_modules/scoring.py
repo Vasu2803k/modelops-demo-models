@@ -19,7 +19,6 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.conditions import HandoffTermination, TextMentionTermination
 from autogen_agentchat.messages import HandoffMessage
 from autogen_agentchat.teams import Swarm
-from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 from autogen_core.models import ModelFamily
 
@@ -121,6 +120,7 @@ class ModelScorer(object):
         Returns:
             json response
         """
+        query=query["message"]
         import asyncio
         async def _collect_async(agen):
             return [item async for item in agen]
